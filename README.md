@@ -216,9 +216,68 @@ POST /api/bot/auto-reply
 - `/time` - Xem thời gian hiện tại
 - `/help` - Hiển thị danh sách lệnh
 - `/info` - Thông tin bot
-- `/weather [tên thành phố]` - Xem thời tiết
+- `/weather [tên thành phố]` - Xem thời tiết (gọi API bên ngoài)
 - `/joke` - Kể chuyện cười
 - `/quote` - Câu nói hay
+- `/api` - Gọi API bên ngoài (demo)
+- `/news` - Tin tức mới nhất (gọi API bên ngoài)
+- `/translate [văn bản]` - Dịch thuật (gọi API bên ngoài)
+
+### 🔗 Webhook Integration
+
+#### Khởi động webhook listener
+```http
+POST /api/webhook/start-listener
+```
+
+**Response:**
+```json
+{
+    "success": true,
+    "message": "Webhook listener đã được khởi động. Bot sẽ tự động phản hồi tin nhắn."
+}
+```
+
+#### Dừng webhook listener
+```http
+POST /api/webhook/stop-listener
+```
+
+**Response:**
+```json
+{
+    "success": true,
+    "message": "Webhook listener đã được dừng."
+}
+```
+
+#### Webhook nhận tin nhắn
+```http
+POST /api/webhook/message
+```
+
+**Request Body:**
+```json
+{
+    "message": "/weather Hà Nội",
+    "threadId": "user_id_or_group_id",
+    "threadType": 1,
+    "senderId": "sender_user_id"
+}
+```
+
+**Response:**
+```json
+{
+    "success": true,
+    "data": {
+        "originalMessage": "/weather Hà Nội",
+        "response": "🌤️ Thời tiết tại Hà Nội: Nắng đẹp, nhiệt độ 25°C",
+        "senderId": "sender_user_id",
+        "sent": true
+    }
+}
+```
 
 ### 👥 Groups
 
@@ -360,6 +419,55 @@ curl -X POST http://localhost:3000/api/bot/auto-reply \
   }'
 ```
 
+### Webhook Integration
+```bash
+# Khởi động webhook listener (bot tự động phản hồi)
+curl -X POST http://localhost:3000/api/webhook/start-listener
+
+# Dừng webhook listener
+curl -X POST http://localhost:3000/api/webhook/stop-listener
+
+# Gửi tin nhắn qua webhook
+curl -X POST http://localhost:3000/api/webhook/message \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "/weather Hà Nội",
+    "threadId": "user_id_here",
+    "threadType": 1,
+    "senderId": "sender_id"
+  }'
+```
+
+### Lệnh bot với API bên ngoài
+```bash
+# Gọi API bên ngoài
+curl -X POST http://localhost:3000/api/bot/command \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "/api",
+    "threadId": "user_id_here",
+    "threadType": 1
+  }'
+
+# Dịch thuật
+curl -X POST http://localhost:3000/api/bot/command \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "/translate Hello world",
+    "threadId": "user_id_here",
+    "threadType": 1
+  }'
+
+# Tin tức
+curl -X POST http://localhost:3000/api/bot/command \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "/news",
+    "threadId": "user_id_here",
+    "threadType": 1
+  }'
+```
+
 ## ⚠️ Lưu ý
 
 - **Rate limiting đã được tắt** cho môi trường local
@@ -372,6 +480,7 @@ curl -X POST http://localhost:3000/api/bot/auto-reply \
 - `zca-js` - Zalo API library
 - `express` - Web framework
 - `sharp` - Image processing
+- `axios` - HTTP client for external APIs
 - `cors` - CORS middleware
 - `helmet` - Security headers
 - `morgan` - Logging
