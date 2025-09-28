@@ -116,12 +116,12 @@ class ListenerController {
 
     // Middleware for validation
     validateAddListener = [
-        this.validation.validateRequired(['callback']),
+        ValidationMiddleware.validateRequired(['callback']),
         (req, res, next) => next()
     ];
 
     validateRemoveListener = [
-        this.validation.validateRequired(['eventType', 'callback']),
+        ValidationMiddleware.validateRequired(['eventType', 'callback']),
         (req, res, next) => next()
     ];
 }

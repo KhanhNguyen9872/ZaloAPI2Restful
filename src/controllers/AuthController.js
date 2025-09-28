@@ -129,17 +129,17 @@ class AuthController {
 
     // Middleware for validation
     validateLoginQR = [
-        this.validation.validateRequired(['userAgent']),
+        ValidationMiddleware.validateRequired(['userAgent']),
         (req, res, next) => next()
     ];
 
     validateLoginCookie = [
-        this.validation.validateRequired(['cookie', 'imei', 'userAgent']),
+        ValidationMiddleware.validateRequired(['cookie', 'imei', 'userAgent']),
         (req, res, next) => next()
     ];
 
     validateLoginProxy = [
-        this.validation.validateRequired(['proxy', 'credentials']),
+        ValidationMiddleware.validateRequired(['proxy', 'credentials']),
         (req, res, next) => next()
     ];
 }

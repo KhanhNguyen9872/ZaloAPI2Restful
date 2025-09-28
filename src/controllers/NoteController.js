@@ -62,17 +62,17 @@ class NoteController {
 
     // Middleware for validation
     validateCreateNote = [
-        this.validation.validateRequired(['title']),
+        ValidationMiddleware.validateRequired(['title']),
         (req, res, next) => next()
     ];
 
     validateEditNote = [
-        this.validation.validateRequired(['title', 'topicId']),
+        ValidationMiddleware.validateRequired(['title', 'topicId']),
         (req, res, next) => next()
     ];
 
     validateDeleteNote = [
-        this.validation.validateRequired(['threadId']),
+        ValidationMiddleware.validateRequired(['threadId']),
         (req, res, next) => next()
     ];
 }

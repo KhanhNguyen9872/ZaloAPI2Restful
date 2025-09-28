@@ -449,22 +449,22 @@ class UserController {
 
     // Middleware for validation
     validateSendFriendRequest = [
-        this.validation.validateRequired(['userId']),
+        ValidationMiddleware.validateRequired(['userId']),
         (req, res, next) => next()
     ];
 
     validateAcceptFriendRequest = [
-        this.validation.validateRequired(['userId']),
+        ValidationMiddleware.validateRequired(['userId']),
         (req, res, next) => next()
     ];
 
     validateChangeFriendAlias = [
-        this.validation.validateRequired(['alias']),
+        ValidationMiddleware.validateRequired(['alias']),
         (req, res, next) => next()
     ];
 
     validateSendReport = [
-        this.validation.validateRequired(['userId', 'reason']),
+        ValidationMiddleware.validateRequired(['userId', 'reason']),
         (req, res, next) => next()
     ];
 }

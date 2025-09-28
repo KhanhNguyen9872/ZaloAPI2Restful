@@ -104,12 +104,12 @@ class ReminderController {
 
     // Middleware for validation
     validateCreateReminder = [
-        this.validation.validateRequired(['title']),
+        ValidationMiddleware.validateRequired(['title']),
         (req, res, next) => next()
     ];
 
     validateEditReminder = [
-        this.validation.validateRequired(['title', 'topicId']),
+        ValidationMiddleware.validateRequired(['title', 'topicId']),
         (req, res, next) => next()
     ];
 }

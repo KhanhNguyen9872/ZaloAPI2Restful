@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const ListenerController = require('../controllers/ListenerController');
-const authMiddleware = require('../middleware/authMiddleware');
+const AuthMiddleware = require('../middleware/authMiddleware');
 
 const listenerController = new ListenerController();
+const authMiddleware = new AuthMiddleware();
 
 // Start listener
 router.post('/start', 

@@ -28,6 +28,39 @@ class QuickMessageController {
         }
     };
 
+    // Add quick message
+    addQuickMessage = async (req, res) => {
+        try {
+            const { keyword, title, media } = req.body;
+            const result = await this.quickMessageService.addQuickMessage({ keyword, title, media });
+            res.json(result);
+        } catch (error) {
+            ErrorMiddleware.globalErrorHandler(error, req, res);
+        }
+    };
+
+    // Get quick message
+    getQuickMessage = async (req, res) => {
+        try {
+            const { itemId } = req.params;
+            const result = await this.quickMessageService.getQuickMessage(parseInt(itemId));
+            res.json(result);
+        } catch (error) {
+            ErrorMiddleware.globalErrorHandler(error, req, res);
+        }
+    };
+
+    // Delete quick message
+    deleteQuickMessage = async (req, res) => {
+        try {
+            const { itemId } = req.params;
+            const result = await this.quickMessageService.deleteQuickMessage(parseInt(itemId));
+            res.json(result);
+        } catch (error) {
+            ErrorMiddleware.globalErrorHandler(error, req, res);
+        }
+    };
+
     // Update quick message
     updateQuickMessage = async (req, res) => {
         try {

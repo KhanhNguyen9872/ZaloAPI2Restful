@@ -149,6 +149,42 @@ class ValidationMiddleware {
             }
         };
     }
+
+    // Static methods for easy access
+    static validateRequired(fields) {
+        const validation = new ValidationMiddleware();
+        return validation.validateRequired(fields);
+    }
+
+    static validateThreadType() {
+        const validation = new ValidationMiddleware();
+        return validation.validateThreadType();
+    }
+
+    static validateEmail() {
+        const validation = new ValidationMiddleware();
+        return validation.validateEmail();
+    }
+
+    static validatePhone() {
+        const validation = new ValidationMiddleware();
+        return validation.validatePhone();
+    }
+
+    static validateNumber() {
+        const validation = new ValidationMiddleware();
+        return validation.validateNumber();
+    }
+
+    static validateString() {
+        const validation = new ValidationMiddleware();
+        return validation.validateString();
+    }
+
+    static validateArray(field) {
+        const validation = new ValidationMiddleware();
+        return validation.validateArray(field);
+    }
 }
 
 module.exports = ValidationMiddleware;

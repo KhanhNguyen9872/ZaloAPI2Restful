@@ -424,35 +424,35 @@ class GroupController {
 
     // Middleware for validation
     validateCreateGroup = [
-        this.validation.validateRequired(['members']),
-        this.validation.validateArray('members'),
+        ValidationMiddleware.validateRequired(['members']),
+        ValidationMiddleware.validateArray('members'),
         (req, res, next) => next()
     ];
 
     validateAddUserToGroup = [
-        this.validation.validateRequired(['userIds']),
-        this.validation.validateArray('userIds'),
+        ValidationMiddleware.validateRequired(['userIds']),
+        ValidationMiddleware.validateArray('userIds'),
         (req, res, next) => next()
     ];
 
     validateAddGroupDeputy = [
-        this.validation.validateRequired(['userIds']),
-        this.validation.validateArray('userIds'),
+        ValidationMiddleware.validateRequired(['userIds']),
+        ValidationMiddleware.validateArray('userIds'),
         (req, res, next) => next()
     ];
 
     validateChangeGroupName = [
-        this.validation.validateRequired(['name']),
+        ValidationMiddleware.validateRequired(['name']),
         (req, res, next) => next()
     ];
 
     validateChangeGroupAvatar = [
-        this.validation.validateRequired(['avatarPath']),
+        ValidationMiddleware.validateRequired(['avatarPath']),
         (req, res, next) => next()
     ];
 
     validateChangeGroupOwner = [
-        this.validation.validateRequired(['memberId']),
+        ValidationMiddleware.validateRequired(['memberId']),
         (req, res, next) => next()
     ];
 }

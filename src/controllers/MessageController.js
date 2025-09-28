@@ -503,60 +503,60 @@ class MessageController {
 
     // Middleware for validation
     validateSendMessage = [
-        this.validation.validateRequired(['message', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['message', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateSendVoice = [
-        this.validation.validateRequired(['voicePath', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['voicePath', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateSendSticker = [
-        this.validation.validateRequired(['stickerId', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['stickerId', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateSendCard = [
-        this.validation.validateRequired(['cardData', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['cardData', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateCreatePoll = [
-        this.validation.validateRequired(['pollData', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['pollData', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateUndo = [
-        this.validation.validateRequired(['threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateAddReaction = [
-        this.validation.validateRequired(['reaction', 'threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['reaction', 'threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validateRemoveReaction = [
-        this.validation.validateRequired(['threadId']),
-        this.validation.validateThreadType(),
+        ValidationMiddleware.validateRequired(['threadId']),
+        ValidationMiddleware.validateThreadType(),
         (req, res, next) => next()
     ];
 
     validatePinConversations = [
-        this.validation.validateArray('threadIds'),
+        ValidationMiddleware.validateArray('threadIds'),
         (req, res, next) => next()
     ];
 
     validateUnpinConversations = [
-        this.validation.validateArray('threadIds'),
+        ValidationMiddleware.validateArray('threadIds'),
         (req, res, next) => next()
     ];
 }

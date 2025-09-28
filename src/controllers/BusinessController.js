@@ -196,22 +196,22 @@ class BusinessController {
 
     // Middleware for validation
     validateCreateAutoReply = [
-        this.validation.validateRequired(['content', 'isEnable', 'startTime', 'endTime', 'scope']),
+        ValidationMiddleware.validateRequired(['content', 'isEnable', 'startTime', 'endTime', 'scope']),
         (req, res, next) => next()
     ];
 
     validateCreateCatalog = [
-        this.validation.validateRequired(['catalogName']),
+        ValidationMiddleware.validateRequired(['catalogName']),
         (req, res, next) => next()
     ];
 
     validateCreateProductCatalog = [
-        this.validation.validateRequired(['catalogId', 'productName', 'price', 'description']),
+        ValidationMiddleware.validateRequired(['catalogId', 'productName', 'price', 'description']),
         (req, res, next) => next()
     ];
 
     validateDeleteProductCatalog = [
-        this.validation.validateRequired(['productIds', 'catalogId']),
+        ValidationMiddleware.validateRequired(['productIds', 'catalogId']),
         (req, res, next) => next()
     ];
 }
