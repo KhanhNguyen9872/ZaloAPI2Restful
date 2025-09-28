@@ -298,6 +298,15 @@ class UserService extends IUserService {
                 message: 'User found successfully'
             };
         } catch (error) {
+            const lowercaseMessage = String(error.message || '').toLowerCase();
+            // Nếu user không hợp lệ hoặc không tìm thấy
+            if (lowercaseMessage.includes('không hợp lệ') || lowercaseMessage.includes('not found') || lowercaseMessage.includes('invalid')) {
+                return {
+                    success: false,
+                    data: null,
+                    message: 'User not found'
+                };
+            }
             throw new Error(`Failed to find user: ${error.message}`);
         }
     }
