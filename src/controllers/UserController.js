@@ -50,16 +50,6 @@ class UserController {
         }
     };
 
-    // Send friend request
-    sendFriendRequest = async (req, res) => {
-        try {
-            const { userId, message } = req.body;
-            const result = await this.userService.sendFriendRequest(userId, message);
-            res.json(result);
-        } catch (error) {
-            ErrorMiddleware.globalErrorHandler(error, req, res);
-        }
-    };
 
     // Accept friend request
     acceptFriendRequest = async (req, res) => {
@@ -357,9 +347,8 @@ class UserController {
     // Send friend request
     sendFriendRequest = async (req, res) => {
         try {
-            const { userId } = req.params;
-            const { msg } = req.body;
-            const result = await this.userService.sendFriendRequest(msg, userId);
+            const { userId, message } = req.body;
+            const result = await this.userService.sendFriendRequest(message, userId);
             res.json(result);
         } catch (error) {
             ErrorMiddleware.globalErrorHandler(error, req, res);

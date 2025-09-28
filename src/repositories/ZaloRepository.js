@@ -218,10 +218,6 @@ class ZaloRepository extends IZaloRepository {
         return await this.zaloAPI.getAllFriends();
     }
 
-    async sendFriendRequest(userId, message) {
-        if (!this.zaloAPI) throw new Error('Zalo API not initialized');
-        return await this.zaloAPI.sendFriendRequest(userId, message);
-    }
 
     async acceptFriendRequest(userId) {
         if (!this.zaloAPI) throw new Error('Zalo API not initialized');

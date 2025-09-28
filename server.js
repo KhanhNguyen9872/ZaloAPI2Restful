@@ -5,12 +5,18 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+// Import Secret Key Middleware
+const SecretKeyMiddleware = require('./src/middleware/secretKeyMiddleware');
+
 const { Zalo } = require('zca-js');
 const sharp = require('sharp');
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Initialize Secret Key Middleware
+const secretKeyMiddleware = new SecretKeyMiddleware();
 
 // Middleware
 app.use(helmet());
@@ -114,20 +120,20 @@ const listenerRoutes = require('./src/routes/listeners');
 const systemRoutes = require('./src/routes/system');
 const webhookRoutes = require('./routes/webhook');
 
-// Use routes
-app.use('/api/auth', authRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/business', businessRoutes);
-app.use('/api/reminders', reminderRoutes);
-app.use('/api/groups', groupRoutes);
-app.use('/api/notes', noteRoutes);
-app.use('/api/context', contextRoutes);
-app.use('/api/polls', pollRoutes);
-app.use('/api/quick-messages', quickMessageRoutes);
-app.use('/api/listeners', listenerRoutes);
-app.use('/api/system', systemRoutes);
-app.use('/api/webhook', webhookRoutes);
+// Apply Secret Key Middleware to all API routes
+app.use('/api/auth', secretKeyMiddleware.requireSecretKey(), authRoutes);
+app.use('/api/messages', secretKeyMiddleware.requireSecretKey(), messageRoutes);
+app.use('/api/users', secretKeyMiddleware.requireSecretKey(), userRoutes);
+app.use('/api/business', secretKeyMiddleware.requireSecretKey(), businessRoutes);
+app.use('/api/reminders', secretKeyMiddleware.requireSecretKey(), reminderRoutes);
+app.use('/api/groups', secretKeyMiddleware.requireSecretKey(), groupRoutes);
+app.use('/api/notes', secretKeyMiddleware.requireSecretKey(), noteRoutes);
+app.use('/api/context', secretKeyMiddleware.requireSecretKey(), contextRoutes);
+app.use('/api/polls', secretKeyMiddleware.requireSecretKey(), pollRoutes);
+app.use('/api/quick-messages', secretKeyMiddleware.requireSecretKey(), quickMessageRoutes);
+app.use('/api/listeners', secretKeyMiddleware.requireSecretKey(), listenerRoutes);
+app.use('/api/system', secretKeyMiddleware.requireSecretKey(), systemRoutes);
+app.use('/api/webhook', webhookRoutes); // Webhook không cần secret key
 
 // Routes
 app.get('/', (req, res) => {

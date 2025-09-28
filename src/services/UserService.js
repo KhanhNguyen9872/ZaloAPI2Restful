@@ -88,26 +88,6 @@ class UserService extends IUserService {
         }
     }
 
-    // Send friend request
-    async sendFriendRequest(userId, message = '') {
-        try {
-            this.ensureZaloAPI();
-            if (!userId) {
-                throw new Error('User ID is required');
-            }
-
-            this.ensureZaloAPI();
-            const result = await this.zaloRepository.sendFriendRequest(userId, message);
-            
-            return {
-                success: true,
-                data: result,
-                message: 'Friend request sent successfully'
-            };
-        } catch (error) {
-            throw new Error(`Failed to send friend request: ${error.message}`);
-        }
-    }
 
     // Accept friend request
     async acceptFriendRequest(userId) {
@@ -650,6 +630,15 @@ class UserService extends IUserService {
                 message: 'Friend request sent successfully'
             };
         } catch (error) {
+            const lowercaseMessage = String(error.message || '').toLowerCase();
+            // Nếu đã là bạn bè thì coi như thành công (idempotent)
+            if (lowercaseMessage.includes('đã là bạn bè') || lowercaseMessage.includes('already') || lowercaseMessage.includes('is friend')) {
+                return {
+                    success: false,
+                    data: null,
+                    message: 'Already friends'
+                };
+            }
             throw new Error(`Failed to send friend request: ${error.message}`);
         }
     }
