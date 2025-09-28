@@ -2,13 +2,19 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// GET /api/auth/access-token - Lấy access token
-router.get('/access-token', authController.getAccessToken);
+// Đăng nhập
+router.post('/login/qr', authController.loginQR);                    // Đăng nhập bằng QR
+router.post('/login/cookie', authController.loginCookie);            // Đăng nhập bằng Cookie
+router.post('/login/proxy', authController.loginWithProxy);          // Đăng nhập với Proxy
 
-// POST /api/auth/refresh-token - Làm mới access token
-router.post('/refresh-token', authController.refreshToken);
+// Quản lý tài khoản
+router.get('/status', authController.getStatus);                    // Trạng thái đăng nhập
+router.get('/context', authController.getContext);                  // Lấy context
+router.get('/cookie', authController.getCookie);                    // Lấy cookie
+router.get('/qr', authController.getQR);                            // Lấy QR code
+router.get('/own-id', authController.getOwnId);                     // Lấy ID của mình
 
-// GET /api/auth/user-info - Lấy thông tin user
-router.get('/user-info', authController.getUserInfo);
+// Đăng xuất
+router.post('/logout', authController.logout);                      // Đăng xuất
 
 module.exports = router;
