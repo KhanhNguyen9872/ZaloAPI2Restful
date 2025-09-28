@@ -1,5 +1,5 @@
 // UserService - Business logic for user operations
-const User = require('../models/User');
+const { User } = require('../models/User');
 const UserDTO = require('../dtos/UserDTO');
 const ZaloRepository = require('../repositories/ZaloRepository');
 const IUserService = require('../interfaces/IUserService');
@@ -7,14 +7,18 @@ const IUserService = require('../interfaces/IUserService');
 class UserService extends IUserService {
     constructor() {
         super();
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
+
 
     // Get account information
     async getAccountInfo() {
         try {
             const accountData = await this.zaloRepository.fetchAccountInfo();
-            const user = User.fromZaloData(accountData);
+            
+            // Lấy dữ liệu profile từ response
+            const profileData = accountData.profile || accountData;
+            const user = User.fromData(profileData);
             const userDTO = UserDTO.fromModel(user);
             
             return userDTO.toResponse();

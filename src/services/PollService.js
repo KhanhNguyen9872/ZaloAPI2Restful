@@ -3,7 +3,7 @@ const ZaloRepository = require('../repositories/ZaloRepository');
 
 class PollService {
     constructor() {
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Get poll detail

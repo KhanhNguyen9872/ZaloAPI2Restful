@@ -3,13 +3,22 @@ const AuthService = require('../services/AuthService');
 
 class AuthMiddleware {
     constructor() {
-        this.authService = new AuthService();
+        this.authService = AuthService.getInstance();
+    }
+
+    // Singleton instance
+    static getInstance() {
+        if (!AuthMiddleware.instance) {
+            AuthMiddleware.instance = new AuthMiddleware();
+        }
+        return AuthMiddleware.instance;
     }
 
     // Check if user is authenticated
     requireAuth() {
         return (req, res, next) => {
             try {
+                
                 if (!this.authService.isAuthenticated()) {
                     return res.status(401).json({
                         success: false,

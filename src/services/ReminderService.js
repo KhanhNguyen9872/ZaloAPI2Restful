@@ -3,7 +3,7 @@ const ZaloRepository = require('../repositories/ZaloRepository');
 
 class ReminderService {
     constructor() {
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Create reminder

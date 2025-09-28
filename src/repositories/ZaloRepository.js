@@ -5,10 +5,10 @@ const fs = require('fs');
 const IZaloRepository = require('../interfaces/IZaloRepository');
 
 class ZaloRepository extends IZaloRepository {
-    constructor() {
+    constructor(zaloAPI = null) {
         super();
-        this.zaloAPI = null;
-        this.isInitialized = false;
+        this.zaloAPI = zaloAPI;
+        this.isInitialized = !!zaloAPI;
     }
 
     // Image metadata getter for zca-js v2
@@ -30,6 +30,13 @@ class ZaloRepository extends IZaloRepository {
     // Initialize Zalo API
     async initialize() {
         if (this.isInitialized) return this.zaloAPI;
+
+        // Check if global zaloAPI exists (from server.js)
+        if (global.zaloAPI) {
+            this.zaloAPI = global.zaloAPI;
+            this.isInitialized = true;
+            return this.zaloAPI;
+        }
 
         try {
             const zalo = new Zalo({

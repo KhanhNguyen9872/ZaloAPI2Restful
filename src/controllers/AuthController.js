@@ -5,7 +5,7 @@ const ValidationMiddleware = require('../middleware/validationMiddleware');
 
 class AuthController {
     constructor() {
-        this.authService = new AuthService();
+        this.authService = AuthService.getInstance();
         this.validation = new ValidationMiddleware();
     }
 
@@ -32,6 +32,9 @@ class AuthController {
             const { cookie, imei, userAgent, language } = req.body;
             
             const result = await this.authService.loginCookie(cookie, imei, userAgent, language);
+            
+            console.log('AuthController: Login successful, session:', this.authService.getCurrentSession());
+            console.log('AuthController: Is authenticated:', this.authService.isAuthenticated());
             
             res.json(result);
         } catch (error) {

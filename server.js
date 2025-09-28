@@ -43,6 +43,9 @@ if (rateLimitWindow > 0 && rateLimitMax > 0) {
 // Zalo API instance
 let zaloAPI = null;
 
+// Export zaloAPI for use in other modules
+global.zaloAPI = zaloAPI;
+
 // Image metadata getter cho zca-js v2
 async function imageMetadataGetter(filePath) {
     try {
@@ -82,6 +85,7 @@ async function initZaloAPI() {
 
             console.log('Đang đăng nhập bằng cookie...');
             zaloAPI = await zalo.login(credentials);
+            global.zaloAPI = zaloAPI; // Update global reference
             console.log('Đăng nhập thành công!');
         } else {
             console.log('Chưa có thông tin đăng nhập, cần QR code...');
@@ -171,6 +175,23 @@ app.use((req, res) => {
 async function startServer() {
     // Thử khởi tạo Zalo API nếu có thông tin đăng nhập
     await initZaloAPI();
+    
+    // Tạo session nếu đã đăng nhập thành công
+    if (zaloAPI) {
+        try {
+            const AuthService = require('./src/services/AuthService');
+            const authService = AuthService.getInstance();
+            
+            // Tạo session từ context hiện tại
+            const context = await zaloAPI.getContext();
+            const AuthSession = require('./src/models/AuthSession');
+            authService.currentSession = AuthSession.fromZaloContext(context);
+            
+            console.log('Session được tạo từ server startup');
+        } catch (error) {
+            console.error('Lỗi tạo session:', error.message);
+        }
+    }
     
     app.listen(PORT, () => {
         console.log(`Server đang chạy tại http://localhost:${PORT}`);

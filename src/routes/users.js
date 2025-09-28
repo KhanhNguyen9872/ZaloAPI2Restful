@@ -5,7 +5,7 @@ const UserController = require('../controllers/UserController');
 const AuthMiddleware = require('../middleware/authMiddleware');
 
 const userController = new UserController();
-const authMiddleware = new AuthMiddleware();
+const authMiddleware = AuthMiddleware.getInstance();
 
 // Thông tin tài khoản
 router.get('/me', 

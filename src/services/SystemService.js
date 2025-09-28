@@ -3,7 +3,7 @@ const ZaloRepository = require('../repositories/ZaloRepository');
 
 class SystemService {
     constructor() {
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Keep alive

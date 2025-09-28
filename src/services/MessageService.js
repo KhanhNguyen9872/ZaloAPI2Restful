@@ -7,7 +7,7 @@ const IMessageService = require('../interfaces/IMessageService');
 class MessageService extends IMessageService {
     constructor() {
         super();
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Send text message with advanced features

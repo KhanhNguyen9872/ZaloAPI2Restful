@@ -5,7 +5,7 @@ const QuickMessageController = require('../controllers/QuickMessageController');
 const AuthMiddleware = require('../middleware/authMiddleware');
 
 const quickMessageController = new QuickMessageController();
-const authMiddleware = new AuthMiddleware();
+const authMiddleware = AuthMiddleware.getInstance();
 
 // Get quick message list
 router.get('/', 

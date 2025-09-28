@@ -3,7 +3,7 @@ const ZaloRepository = require('../repositories/ZaloRepository');
 
 class QuickMessageService {
     constructor() {
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Get quick message list

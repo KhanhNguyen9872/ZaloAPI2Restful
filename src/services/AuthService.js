@@ -8,6 +8,14 @@ class AuthService {
         this.currentSession = null;
     }
 
+    // Singleton instance
+    static getInstance() {
+        if (!AuthService.instance) {
+            AuthService.instance = new AuthService();
+        }
+        return AuthService.instance;
+    }
+
     // Login with QR
     async loginQR(qrPath, userAgent, language = 'vi') {
         try {
@@ -33,6 +41,12 @@ class AuthService {
     // Login with Cookie
     async loginCookie(cookie, imei, userAgent, language = 'vi') {
         try {
+            // Check if global zaloAPI exists first
+            if (global.zaloAPI) {
+                this.zaloRepository.zaloAPI = global.zaloAPI;
+                this.zaloRepository.isInitialized = true;
+            }
+
             const credentials = {
                 cookie: typeof cookie === 'string' ? JSON.parse(Buffer.from(cookie, 'base64').toString()) : cookie,
                 imei: imei,

@@ -29,16 +29,16 @@ class UserDTO {
     // Factory methods
     static fromModel(user) {
         return new UserDTO({
-            id: user.id,
-            name: user.name,
-            avatar: user.avatar,
-            phone: user.phone,
-            email: user.email,
-            isOnline: user.isOnline,
-            lastSeen: user.lastSeen,
-            alias: user.alias,
-            isBlocked: user.isBlocked,
-            isFriend: user.isFriend
+            id: user.getUserId(),
+            name: user.getDisplayName() || user.getZaloName(),
+            avatar: user.getAvatar(),
+            phone: user.getPhoneNumber(),
+            email: null, // Zalo không có email
+            isOnline: user.getIsActive(),
+            lastSeen: user.getLastActionTime(),
+            alias: user.getZaloName(),
+            isBlocked: user.getIsBlocked(),
+            isFriend: user.getIsFr()
         });
     }
 

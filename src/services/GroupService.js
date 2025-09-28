@@ -7,7 +7,7 @@ const IGroupService = require('../interfaces/IGroupService');
 class GroupService extends IGroupService {
     constructor() {
         super();
-        this.zaloRepository = new ZaloRepository();
+        this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
     // Get all groups

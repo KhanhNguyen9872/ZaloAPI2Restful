@@ -5,7 +5,7 @@ const ListenerController = require('../controllers/ListenerController');
 const AuthMiddleware = require('../middleware/authMiddleware');
 
 const listenerController = new ListenerController();
-const authMiddleware = new AuthMiddleware();
+const authMiddleware = AuthMiddleware.getInstance();
 
 // Start listener
 router.post('/start', 
