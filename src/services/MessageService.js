@@ -28,8 +28,6 @@ class MessageService extends IMessageService {
             if (!threadId) {
                 throw new Error('Thread ID is required');
             }
-
-            this.ensureZaloAPI();
             
             // Support both string and MessageContent object
             let messageContent;

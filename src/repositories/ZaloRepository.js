@@ -1,4 +1,5 @@
 // ZaloRepository - Implementation of IZaloRepository
+const { ThreadType } = require('zca-js');
 const { Zalo } = require('zca-js');
 const sharp = require('sharp');
 const fs = require('fs');
@@ -141,7 +142,7 @@ class ZaloRepository extends IZaloRepository {
     }
 
     // Message methods
-    async sendMessage(message, threadId, type = 1) {
+    async sendMessage(message, threadId, type = 0) {
         if (!this.zaloAPI) throw new Error('Zalo API not initialized');
         return await this.zaloAPI.sendMessage(message, threadId, type);
     }
