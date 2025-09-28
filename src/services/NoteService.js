@@ -6,9 +6,18 @@ class NoteService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Create note
     async createNote(noteData, threadId, threadType) {
         try {
+            this.ensureZaloAPI();
             if (!noteData) {
                 throw new Error('Note data is required');
             }
@@ -16,6 +25,8 @@ class NoteService {
                 throw new Error('Thread ID is required');
             }
 
+            this.ensureZaloAPI();
+            
             const { title, pinAct } = noteData;
 
             if (!title) {
@@ -37,6 +48,7 @@ class NoteService {
     // Edit note
     async editNote(options, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!options) {
                 throw new Error('Note options are required');
             }
@@ -68,6 +80,7 @@ class NoteService {
     // Delete note
     async deleteNote(noteId, threadId, threadType) {
         try {
+            this.ensureZaloAPI();
             if (!noteId) {
                 throw new Error('Note ID is required');
             }

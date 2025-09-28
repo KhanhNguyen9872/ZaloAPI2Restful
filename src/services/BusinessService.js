@@ -6,6 +6,14 @@ class BusinessService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Create auto reply
     async createAutoReply(payload) {
         try {
@@ -13,6 +21,8 @@ class BusinessService {
                 throw new Error('Auto reply payload is required');
             }
 
+            this.ensureZaloAPI();
+            
             const { content, isEnable, startTime, endTime, scope, uids } = payload;
 
             if (!content) {
@@ -43,6 +53,7 @@ class BusinessService {
     // Create catalog
     async createCatalog(catalogName) {
         try {
+            this.ensureZaloAPI();
             if (!catalogName) {
                 throw new Error('Catalog name is required');
             }
@@ -62,6 +73,7 @@ class BusinessService {
     // Create product catalog
     async createProductCatalog(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload) {
                 throw new Error('Product catalog payload is required');
             }
@@ -96,6 +108,7 @@ class BusinessService {
     // Delete auto reply
     async deleteAutoReply(id) {
         try {
+            this.ensureZaloAPI();
             if (!id) {
                 throw new Error('Auto reply ID is required');
             }
@@ -115,6 +128,7 @@ class BusinessService {
     // Delete catalog
     async deleteCatalog(catalogId) {
         try {
+            this.ensureZaloAPI();
             if (!catalogId) {
                 throw new Error('Catalog ID is required');
             }
@@ -134,6 +148,7 @@ class BusinessService {
     // Delete product catalog
     async deleteProductCatalog(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload) {
                 throw new Error('Delete product catalog payload is required');
             }
@@ -162,6 +177,7 @@ class BusinessService {
     // Get auto reply list
     async getAutoReplyList() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAutoReplyList();
             
             return {
@@ -177,6 +193,7 @@ class BusinessService {
     // Get biz account
     async getBizAccount() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getBizAccount();
             
             return {
@@ -192,6 +209,7 @@ class BusinessService {
     // Get catalog list
     async getCatalogList(payload) {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getCatalogList(payload);
             
             return {
@@ -206,7 +224,8 @@ class BusinessService {
 
     // Get product catalog list
     async getProductCatalogList(payload) {
-        try {
+        try {   
+            this.ensureZaloAPI();
             if (!payload) {
                 throw new Error('Payload is required');
             }
@@ -232,6 +251,7 @@ class BusinessService {
     // Update auto reply
     async updateAutoReply(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.id || !payload.content || payload.isEnable === undefined) {
                 throw new Error('Payload with id, content, and isEnable is required');
             }
@@ -251,6 +271,7 @@ class BusinessService {
     // Update catalog
     async updateCatalog(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.catalogId || !payload.catalogName) {
                 throw new Error('Payload with catalogId and catalogName is required');
             }
@@ -270,6 +291,7 @@ class BusinessService {
     // Update product catalog
     async updateProductCatalog(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.catalogId || !payload.productId || !payload.productName || !payload.price || !payload.description) {
                 throw new Error('Payload with catalogId, productId, productName, price, and description is required');
             }
@@ -289,6 +311,7 @@ class BusinessService {
     // Upload product photo
     async uploadProductPhoto(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.file) {
                 throw new Error('Payload with file is required');
             }

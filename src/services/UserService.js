@@ -10,10 +10,19 @@ class UserService extends IUserService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
 
     // Get account information
     async getAccountInfo() {
         try {
+            this.ensureZaloAPI();
             const accountData = await this.zaloRepository.fetchAccountInfo();
             
             // Lấy dữ liệu profile từ response
@@ -30,6 +39,7 @@ class UserService extends IUserService {
     // Get own ID
     async getOwnId() {
         try {
+            this.ensureZaloAPI();
             const ownId = await this.zaloRepository.getOwnId();
             return {
                 success: true,
@@ -43,10 +53,12 @@ class UserService extends IUserService {
     // Get user information
     async getUserInfo(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
 
+            this.ensureZaloAPI();
             const userData = await this.zaloRepository.getUserInfo(userId);
             const user = User.fromZaloData(userData);
             const userDTO = UserDTO.fromModel(user);
@@ -60,6 +72,7 @@ class UserService extends IUserService {
     // Get all friends
     async getAllFriends() {
         try {
+            this.ensureZaloAPI();
             const friendsData = await this.zaloRepository.getAllFriends();
             const friends = friendsData.map(friendData => {
                 const user = User.fromZaloData(friendData);
@@ -78,10 +91,12 @@ class UserService extends IUserService {
     // Send friend request
     async sendFriendRequest(userId, message = '') {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.sendFriendRequest(userId, message);
             
             return {
@@ -97,10 +112,12 @@ class UserService extends IUserService {
     // Accept friend request
     async acceptFriendRequest(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.acceptFriendRequest(userId);
             
             return {
@@ -116,6 +133,7 @@ class UserService extends IUserService {
     // Change friend alias
     async changeFriendAlias(userId, alias) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -138,10 +156,12 @@ class UserService extends IUserService {
     // Block user
     async blockUser(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.blockUser(userId);
             
             return {
@@ -157,6 +177,7 @@ class UserService extends IUserService {
     // Unblock user
     async unblockUser(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -176,10 +197,12 @@ class UserService extends IUserService {
     // Find user
     async findUser(query) {
         try {
+            this.ensureZaloAPI();
             if (!query) {
                 throw new Error('Search query is required');
             }
 
+            this.ensureZaloAPI();
             const usersData = await this.zaloRepository.findUser(query);
             const users = usersData.map(userData => {
                 const user = User.fromZaloData(userData);
@@ -198,6 +221,7 @@ class UserService extends IUserService {
     // Send report
     async sendReport(userId, reason, description = '') {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -205,6 +229,7 @@ class UserService extends IUserService {
                 throw new Error('Reason is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.sendReport(userId, reason, description);
             
             return {
@@ -220,6 +245,7 @@ class UserService extends IUserService {
     // Block view feed
     async blockViewFeed(userId, isBlockFeed = true) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -239,6 +265,7 @@ class UserService extends IUserService {
     // Change account avatar
     async changeAccountAvatar(avatarSource) {
         try {
+            this.ensureZaloAPI();
             if (!avatarSource) {
                 throw new Error('Avatar source is required');
             }
@@ -258,6 +285,7 @@ class UserService extends IUserService {
     // Delete avatar
     async deleteAvatar(photoId) {
         try {
+            this.ensureZaloAPI();
             if (!photoId) {
                 throw new Error('Photo ID is required');
             }
@@ -277,6 +305,7 @@ class UserService extends IUserService {
     // Find user by phone number
     async findUser(phoneNumber) {
         try {
+            this.ensureZaloAPI();
             if (!phoneNumber) {
                 throw new Error('Phone number is required');
             }
@@ -296,6 +325,7 @@ class UserService extends IUserService {
     // Get all friends
     async getAllFriends(count = 20000, page = 1) {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAllFriends(count, page);
             
             return {
@@ -311,6 +341,7 @@ class UserService extends IUserService {
     // Get alias list
     async getAliasList(count = 100, page = 1) {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAliasList(count, page);
             
             return {
@@ -326,6 +357,7 @@ class UserService extends IUserService {
     // Get avatar list
     async getAvatarList() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAvatarList();
             
             return {
@@ -341,6 +373,7 @@ class UserService extends IUserService {
     // Get friend board list
     async getFriendBoardList(conversationId) {
         try {
+            this.ensureZaloAPI();
             if (!conversationId) {
                 throw new Error('Conversation ID is required');
             }
@@ -360,6 +393,7 @@ class UserService extends IUserService {
     // Get friend recommendations
     async getFriendRecommendations() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getFriendRecommendations();
             
             return {
@@ -375,10 +409,12 @@ class UserService extends IUserService {
     // Get friend request status
     async getFriendRequestStatus(friendId) {
         try {
+            this.ensureZaloAPI();
             if (!friendId) {
                 throw new Error('Friend ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getFriendRequestStatus(friendId);
             
             return {
@@ -394,6 +430,7 @@ class UserService extends IUserService {
     // Get labels
     async getLabels() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getLabels();
             
             return {
@@ -409,6 +446,7 @@ class UserService extends IUserService {
     // Get mute
     async getMute() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getMute();
             
             return {
@@ -424,6 +462,7 @@ class UserService extends IUserService {
     // Get own ID
     async getOwnId() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getOwnId();
             
             return {
@@ -439,6 +478,7 @@ class UserService extends IUserService {
     // Get QR
     async getQR(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -458,6 +498,7 @@ class UserService extends IUserService {
     // Get related friend group
     async getRelatedFriendGroup(friendId) {
         try {
+            this.ensureZaloAPI();
             if (!friendId) {
                 throw new Error('Friend ID is required');
             }
@@ -477,6 +518,7 @@ class UserService extends IUserService {
     // Get sent friend request
     async getSentFriendRequest() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getSentFriendRequest();
             
             return {
@@ -492,6 +534,7 @@ class UserService extends IUserService {
     // Get user info
     async getUserInfo(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -511,6 +554,7 @@ class UserService extends IUserService {
     // Get last online
     async getLastOnline(uid) {
         try {
+            this.ensureZaloAPI();
             if (!uid) {
                 throw new Error('User ID is required');
             }
@@ -530,6 +574,7 @@ class UserService extends IUserService {
     // Remove friend
     async removeFriend(friendId) {
         try {
+            this.ensureZaloAPI();
             if (!friendId) {
                 throw new Error('Friend ID is required');
             }
@@ -549,6 +594,7 @@ class UserService extends IUserService {
     // Remove friend alias
     async removeFriendAlias(friendId) {
         try {
+            this.ensureZaloAPI();
             if (!friendId) {
                 throw new Error('Friend ID is required');
             }
@@ -568,6 +614,7 @@ class UserService extends IUserService {
     // Reuse avatar
     async reuseAvatar(photoId) {
         try {
+            this.ensureZaloAPI();
             if (!photoId) {
                 throw new Error('Photo ID is required');
             }
@@ -587,6 +634,7 @@ class UserService extends IUserService {
     // Send friend request
     async sendFriendRequest(msg, userId) {
         try {
+            this.ensureZaloAPI();
             if (!msg) {
                 throw new Error('Message is required');
             }
@@ -609,6 +657,7 @@ class UserService extends IUserService {
     // Send report
     async sendReport(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options || !options.reason) {
                 throw new Error('Options with reason is required');
             }
@@ -631,6 +680,7 @@ class UserService extends IUserService {
     // Unblock user
     async unblockUser(userId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -650,6 +700,7 @@ class UserService extends IUserService {
     // Undo friend request
     async undoFriendRequest(friendId) {
         try {
+            this.ensureZaloAPI();
             if (!friendId) {
                 throw new Error('Friend ID is required');
             }
@@ -669,6 +720,7 @@ class UserService extends IUserService {
     // Update labels
     async updateLabels(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.labelData || !payload.version) {
                 throw new Error('Payload with labelData and version is required');
             }
@@ -688,6 +740,7 @@ class UserService extends IUserService {
     // Update language
     async updateLang(language) {
         try {
+            this.ensureZaloAPI();
             if (!language) {
                 throw new Error('Language is required');
             }
@@ -707,6 +760,7 @@ class UserService extends IUserService {
     // Update profile
     async updateProfile(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.profile) {
                 throw new Error('Payload with profile is required');
             }
@@ -732,6 +786,7 @@ class UserService extends IUserService {
     // Update settings
     async updateSettings(type, value) {
         try {
+            this.ensureZaloAPI();
             if (!type) {
                 throw new Error('Type is required');
             }

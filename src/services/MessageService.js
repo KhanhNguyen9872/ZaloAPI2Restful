@@ -10,9 +10,18 @@ class MessageService extends IMessageService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Send text message with advanced features
     async sendMessage(message, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!message) {
                 throw new Error('Message content is required');
             }
@@ -20,6 +29,8 @@ class MessageService extends IMessageService {
                 throw new Error('Thread ID is required');
             }
 
+            this.ensureZaloAPI();
+            
             // Support both string and MessageContent object
             let messageContent;
             if (typeof message === 'string') {
@@ -43,6 +54,7 @@ class MessageService extends IMessageService {
     // Send voice message
     async sendVoice(voicePath, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!voicePath) {
                 throw new Error('Voice path is required');
             }
@@ -69,6 +81,7 @@ class MessageService extends IMessageService {
     // Send sticker
     async sendSticker(stickerId, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!stickerId) {
                 throw new Error('Sticker ID is required');
             }
@@ -95,6 +108,7 @@ class MessageService extends IMessageService {
     // Send card
     async sendCard(cardData, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!cardData) {
                 throw new Error('Card data is required');
             }
@@ -121,6 +135,7 @@ class MessageService extends IMessageService {
     // Create poll
     async createPoll(pollData, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!pollData) {
                 throw new Error('Poll data is required');
             }
@@ -147,6 +162,7 @@ class MessageService extends IMessageService {
     // Delete message
     async deleteMessage(messageId) {
         try {
+            this.ensureZaloAPI();
             if (!messageId) {
                 throw new Error('Message ID is required');
             }
@@ -166,6 +182,7 @@ class MessageService extends IMessageService {
     // Undo message
     async undo(messageId, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!messageId) {
                 throw new Error('Message ID is required');
             }
@@ -188,6 +205,7 @@ class MessageService extends IMessageService {
     // Add reaction
     async addReaction(reaction, messageId, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!reaction) {
                 throw new Error('Reaction is required');
             }
@@ -213,6 +231,7 @@ class MessageService extends IMessageService {
     // Remove reaction
     async removeReaction(messageId, threadId, threadType = 1) {
         try {
+            this.ensureZaloAPI();
             if (!messageId) {
                 throw new Error('Message ID is required');
             }
@@ -235,6 +254,7 @@ class MessageService extends IMessageService {
     // Get stickers
     async getStickers(keyword) {
         try {
+            this.ensureZaloAPI();
             if (!keyword) {
                 throw new Error('Keyword is required');
             }
@@ -253,6 +273,7 @@ class MessageService extends IMessageService {
     // Get stickers detail
     async getStickersDetail(stickerIds) {
         try {
+            this.ensureZaloAPI();
             if (!stickerIds || !Array.isArray(stickerIds)) {
                 throw new Error('Sticker IDs array is required');
             }
@@ -271,6 +292,7 @@ class MessageService extends IMessageService {
     // Pin conversations
     async pinConversations(threadIds) {
         try {
+            this.ensureZaloAPI();
             if (!threadIds || !Array.isArray(threadIds)) {
                 throw new Error('Thread IDs array is required');
             }
@@ -290,6 +312,7 @@ class MessageService extends IMessageService {
     // Unpin conversations
     async unpinConversations(threadIds) {
         try {
+            this.ensureZaloAPI();
             if (!threadIds || !Array.isArray(threadIds)) {
                 throw new Error('Thread IDs array is required');
             }
@@ -309,6 +332,7 @@ class MessageService extends IMessageService {
     // Add unread mark
     async addUnreadMark(threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!threadId) {
                 throw new Error('Thread ID is required');
             }
@@ -328,6 +352,7 @@ class MessageService extends IMessageService {
     // Delete chat
     async deleteChat(lastMessage, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!lastMessage) {
                 throw new Error('Last message is required');
             }
@@ -350,6 +375,7 @@ class MessageService extends IMessageService {
     // Delete message (advanced)
     async deleteMessageAdvanced(dest, onlyMe = true) {
         try {
+            this.ensureZaloAPI();
             if (!dest) {
                 throw new Error('Message destination is required');
             }
@@ -369,6 +395,7 @@ class MessageService extends IMessageService {
     // Forward message
     async forwardMessage(payload, threadIds, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!payload) {
                 throw new Error('Message payload is required');
             }
@@ -397,6 +424,7 @@ class MessageService extends IMessageService {
     // Get archived chat list
     async getArchivedChatList() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getArchivedChatList();
             
             return {
@@ -412,6 +440,7 @@ class MessageService extends IMessageService {
     // Get auto delete chat
     async getAutoDeleteChat() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAutoDeleteChat();
             
             return {
@@ -427,6 +456,7 @@ class MessageService extends IMessageService {
     // Get hidden conversations
     async getHiddenConversations() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getHiddenConversations();
             
             return {
@@ -442,6 +472,7 @@ class MessageService extends IMessageService {
     // Get pin conversations
     async getPinConversations() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getPinConversations();
             
             return {
@@ -457,6 +488,7 @@ class MessageService extends IMessageService {
     // Get stickers
     async getStickers(keyword) {
         try {
+            this.ensureZaloAPI();
             if (!keyword) {
                 throw new Error('Keyword is required');
             }
@@ -476,6 +508,7 @@ class MessageService extends IMessageService {
     // Get stickers detail
     async getStickersDetail(stickerIds) {
         try {
+            this.ensureZaloAPI();
             if (!stickerIds) {
                 throw new Error('Sticker IDs are required');
             }
@@ -495,6 +528,7 @@ class MessageService extends IMessageService {
     // Get unread mark
     async getUnreadMark() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getUnreadMark();
             
             return {
@@ -510,6 +544,7 @@ class MessageService extends IMessageService {
     // Remove unread mark
     async removeUnreadMark(threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!threadId) {
                 throw new Error('Thread ID is required');
             }
@@ -529,6 +564,7 @@ class MessageService extends IMessageService {
     // Reset hidden conversation pin
     async resetHiddenConversPin() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.resetHiddenConversPin();
             
             return {
@@ -544,6 +580,7 @@ class MessageService extends IMessageService {
     // Send bank card
     async sendBankCard(payload, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.binBank || !payload.numAccBank) {
                 throw new Error('Payload with binBank and numAccBank is required');
             }
@@ -566,6 +603,7 @@ class MessageService extends IMessageService {
     // Send card
     async sendCard(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options || !options.userId) {
                 throw new Error('Options with userId is required');
             }
@@ -588,6 +626,7 @@ class MessageService extends IMessageService {
     // Send delivered event
     async sendDeliveredEvent(isSeen, messages, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (typeof isSeen !== 'boolean') {
                 throw new Error('isSeen must be a boolean');
             }
@@ -610,6 +649,7 @@ class MessageService extends IMessageService {
     // Send link
     async sendLink(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options || !options.link) {
                 throw new Error('Options with link is required');
             }
@@ -632,6 +672,7 @@ class MessageService extends IMessageService {
     // Send seen event
     async sendSeenEvent(messages, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!messages || !Array.isArray(messages)) {
                 throw new Error('Messages array is required');
             }
@@ -654,6 +695,7 @@ class MessageService extends IMessageService {
     // Send sticker
     async sendSticker(sticker, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!sticker || !sticker.id || !sticker.cateId || sticker.type === undefined) {
                 throw new Error('Sticker with id, cateId, and type is required');
             }
@@ -676,6 +718,7 @@ class MessageService extends IMessageService {
     // Send typing event
     async sendTypingEvent(threadId, type, destType) {
         try {
+            this.ensureZaloAPI();
             if (!threadId) {
                 throw new Error('Thread ID is required');
             }
@@ -698,6 +741,7 @@ class MessageService extends IMessageService {
     // Send video
     async sendVideo(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options || !options.videoUrl || !options.thumbnailUrl) {
                 throw new Error('Options with videoUrl and thumbnailUrl is required');
             }
@@ -720,6 +764,7 @@ class MessageService extends IMessageService {
     // Send voice
     async sendVoice(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options || !options.voiceUrl) {
                 throw new Error('Options with voiceUrl is required');
             }
@@ -742,6 +787,7 @@ class MessageService extends IMessageService {
     // Set hidden conversations
     async setHiddenConversations(hidden, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (typeof hidden !== 'boolean') {
                 throw new Error('Hidden must be a boolean');
             }
@@ -764,6 +810,7 @@ class MessageService extends IMessageService {
     // Set mute
     async setMute(params, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!params || !params.action) {
                 throw new Error('Params with action is required');
             }
@@ -786,6 +833,7 @@ class MessageService extends IMessageService {
     // Set pinned conversations
     async setPinnedConversations(pinned, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (typeof pinned !== 'boolean') {
                 throw new Error('Pinned must be a boolean');
             }
@@ -808,6 +856,7 @@ class MessageService extends IMessageService {
     // Undo message
     async undo(message) {
         try {
+            this.ensureZaloAPI();
             if (!message || !message.msgId || !message.cliMsgId) {
                 throw new Error('Message with msgId and cliMsgId is required');
             }
@@ -827,6 +876,7 @@ class MessageService extends IMessageService {
     // Update auto delete chat
     async updateAutoDeleteChat(ttl, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (ttl === undefined || ttl === null) {
                 throw new Error('TTL is required');
             }
@@ -849,6 +899,7 @@ class MessageService extends IMessageService {
     // Update hidden conversation pin
     async updateHiddenConversPin(pin) {
         try {
+            this.ensureZaloAPI();
             if (!pin) {
                 throw new Error('Pin is required');
             }
@@ -868,6 +919,7 @@ class MessageService extends IMessageService {
     // Upload attachment
     async uploadAttachment(source, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!source) {
                 throw new Error('Source is required');
             }

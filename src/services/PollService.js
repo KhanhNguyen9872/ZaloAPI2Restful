@@ -9,6 +9,7 @@ class PollService {
     // Get poll detail
     async getPollDetail(pollId) {
         try {
+            this.ensureZaloAPI();
             if (!pollId) {
                 throw new Error('Poll ID is required');
             }
@@ -28,6 +29,7 @@ class PollService {
     // Lock poll
     async lockPoll(pollId) {
         try {
+            this.ensureZaloAPI();
             if (!pollId) {
                 throw new Error('Poll ID is required');
             }

@@ -10,6 +10,7 @@ class ListenerService {
     // Start listener
     async startListener() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.startListener();
             
             return {
@@ -25,6 +26,7 @@ class ListenerService {
     // Stop listener
     async stopListener() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.stopListener();
             
             return {
@@ -44,6 +46,7 @@ class ListenerService {
                 throw new Error('Callback must be a function');
             }
 
+            this.ensureZaloAPI();
             this.zaloRepository.addMessageListener(callback);
             
             return {
@@ -62,6 +65,7 @@ class ListenerService {
                 throw new Error('Callback must be a function');
             }
 
+            this.ensureZaloAPI();
             this.zaloRepository.addReactionListener(callback);
             
             return {
@@ -80,6 +84,7 @@ class ListenerService {
                 throw new Error('Callback must be a function');
             }
 
+            this.ensureZaloAPI();
             this.zaloRepository.addUndoListener(callback);
             
             return {
@@ -98,6 +103,7 @@ class ListenerService {
                 throw new Error('Callback must be a function');
             }
 
+            this.ensureZaloAPI();
             this.zaloRepository.addGroupEventListener(callback);
             
             return {
@@ -116,6 +122,7 @@ class ListenerService {
                 throw new Error('Event type is required');
             }
 
+            this.ensureZaloAPI();
             this.zaloRepository.removeListener(eventType, callback);
             
             return {
@@ -130,6 +137,7 @@ class ListenerService {
     // Get listener status
     getListenerStatus() {
         try {
+            this.ensureZaloAPI();
             const result = this.zaloRepository.getListenerStatus();
             
             return {

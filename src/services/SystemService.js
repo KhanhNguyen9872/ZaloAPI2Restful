@@ -6,9 +6,17 @@ class SystemService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Keep alive
     async keepAlive() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.keepAlive();
             
             return {
@@ -24,6 +32,7 @@ class SystemService {
     // Parse link
     async parseLink(link) {
         try {
+            this.ensureZaloAPI();
             if (!link) {
                 throw new Error('Link is required');
             }

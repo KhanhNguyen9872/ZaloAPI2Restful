@@ -10,9 +10,18 @@ class GroupService extends IGroupService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Get all groups
     async getAllGroups() {
         try {
+            this.ensureZaloAPI();
             const groupsData = await this.zaloRepository.getAllGroups();
             const groups = groupsData.map(groupData => {
                 const group = Group.fromZaloData(groupData);
@@ -31,6 +40,7 @@ class GroupService extends IGroupService {
     // Get group information
     async getGroupInfo(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -48,6 +58,7 @@ class GroupService extends IGroupService {
     // Create group
     async createGroup(options) {
         try {
+            this.ensureZaloAPI();
             if (!options) {
                 throw new Error('Group options are required');
             }
@@ -75,10 +86,12 @@ class GroupService extends IGroupService {
     // Disperse group
     async disperseGroup(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.disperseGroup(groupId);
             
             return {
@@ -94,6 +107,7 @@ class GroupService extends IGroupService {
     // Add user to group
     async addUserToGroup(groupId, userIds) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -116,6 +130,7 @@ class GroupService extends IGroupService {
     // Remove user from group
     async removeUserFromGroup(groupId, userId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -138,6 +153,7 @@ class GroupService extends IGroupService {
     // Add group deputy
     async addGroupDeputy(groupId, userIds) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -182,6 +198,7 @@ class GroupService extends IGroupService {
     // Change group name
     async changeGroupName(name, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!name) {
                 throw new Error('Group name is required');
             }
@@ -204,6 +221,7 @@ class GroupService extends IGroupService {
     // Change group avatar
     async changeGroupAvatar(avatarPath, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!avatarPath) {
                 throw new Error('Avatar path is required');
             }
@@ -226,6 +244,7 @@ class GroupService extends IGroupService {
     // Change group owner
     async changeGroupOwner(memberId, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!memberId) {
                 throw new Error('Member ID is required');
             }
@@ -248,6 +267,7 @@ class GroupService extends IGroupService {
     // Add group blocked member
     async addGroupBlockedMember(groupId, memberId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -270,6 +290,7 @@ class GroupService extends IGroupService {
     // Remove group blocked member
     async removeGroupBlockedMember(groupId, memberId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -311,6 +332,7 @@ class GroupService extends IGroupService {
     // Disable group link
     async disableGroupLink(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -330,6 +352,7 @@ class GroupService extends IGroupService {
     // Enable group link
     async enableGroupLink(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -349,6 +372,7 @@ class GroupService extends IGroupService {
     // Get all groups
     async getAllGroups() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getAllGroups();
             
             return {
@@ -364,6 +388,7 @@ class GroupService extends IGroupService {
     // Get group blocked member
     async getGroupBlockedMember(payload, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -383,10 +408,12 @@ class GroupService extends IGroupService {
     // Get group info
     async getGroupInfo(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getGroupInfo(groupId);
             
             return {
@@ -427,6 +454,7 @@ class GroupService extends IGroupService {
     // Get group invite box list
     async getGroupInviteBoxList(payload) {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getGroupInviteBoxList(payload);
             
             return {
@@ -442,6 +470,7 @@ class GroupService extends IGroupService {
     // Get group link detail
     async getGroupLinkDetail(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -461,6 +490,7 @@ class GroupService extends IGroupService {
     // Get group link info
     async getGroupLinkInfo(payload) {
         try {
+            this.ensureZaloAPI();
             if (!payload) {
                 throw new Error('Payload is required');
             }
@@ -486,6 +516,7 @@ class GroupService extends IGroupService {
     // Get group members info
     async getGroupMembersInfo(memberId) {
         try {
+            this.ensureZaloAPI();
             if (!memberId) {
                 throw new Error('Member ID is required');
             }
@@ -505,6 +536,7 @@ class GroupService extends IGroupService {
     // Get list board
     async getListBoard(options, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -524,6 +556,7 @@ class GroupService extends IGroupService {
     // Get pending group members
     async getPendingGroupMembers(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -543,6 +576,7 @@ class GroupService extends IGroupService {
     // Invite user to groups
     async inviteUserToGroups(userId, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!userId) {
                 throw new Error('User ID is required');
             }
@@ -565,6 +599,7 @@ class GroupService extends IGroupService {
     // Join group invite box
     async joinGroupInviteBox(groupId) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -584,6 +619,7 @@ class GroupService extends IGroupService {
     // Join group link
     async joinGroupLink(link) {
         try {
+            this.ensureZaloAPI();
             if (!link) {
                 throw new Error('Link is required');
             }
@@ -603,6 +639,7 @@ class GroupService extends IGroupService {
     // Leave group
     async leaveGroup(groupId, silent = false) {
         try {
+            this.ensureZaloAPI();
             if (!groupId) {
                 throw new Error('Group ID is required');
             }
@@ -622,6 +659,7 @@ class GroupService extends IGroupService {
     // Remove group blocked member
     async removeGroupBlockedMember(memberId, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!memberId) {
                 throw new Error('Member ID is required');
             }
@@ -644,6 +682,7 @@ class GroupService extends IGroupService {
     // Remove user from group
     async removeUserFromGroup(memberId, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!memberId) {
                 throw new Error('Member ID is required');
             }
@@ -666,6 +705,7 @@ class GroupService extends IGroupService {
     // Review pending member request
     async reviewPendingMemberRequest(payload, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!payload || !payload.members || payload.isApprove === undefined) {
                 throw new Error('Payload with members and isApprove is required');
             }
@@ -688,6 +728,7 @@ class GroupService extends IGroupService {
     // Update group settings
     async updateGroupSettings(options, groupId) {
         try {
+            this.ensureZaloAPI();
             if (!options) {
                 throw new Error('Options is required');
             }

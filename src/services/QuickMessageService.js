@@ -6,9 +6,18 @@ class QuickMessageService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    // Helper method để đảm bảo sử dụng global instance
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Get quick message list
     async getQuickMessageList() {
         try {
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.getQuickMessageList();
             
             return {
@@ -24,10 +33,12 @@ class QuickMessageService {
     // Remove quick message
     async removeQuickMessage(itemIds) {
         try {
+            this.ensureZaloAPI();
             if (!itemIds) {
                 throw new Error('Item IDs are required');
             }
 
+            this.ensureZaloAPI();
             const result = await this.zaloRepository.removeQuickMessage(itemIds);
             
             return {
@@ -43,6 +54,7 @@ class QuickMessageService {
     // Update quick message
     async updateQuickMessage(updatePayload, itemId) {
         try {
+            this.ensureZaloAPI();
             if (!updatePayload || !updatePayload.keyword || !updatePayload.title) {
                 throw new Error('Update payload with keyword and title is required');
             }

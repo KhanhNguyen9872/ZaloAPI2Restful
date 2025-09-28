@@ -6,9 +6,17 @@ class ReminderService {
         this.zaloRepository = new ZaloRepository(global.zaloAPI);
     }
 
+    ensureZaloAPI() {
+        if (global.zaloAPI && !this.zaloRepository.zaloAPI) {
+            this.zaloRepository.zaloAPI = global.zaloAPI;
+            this.zaloRepository.isInitialized = true;
+        }
+    }
+
     // Create reminder
     async createReminder(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options) {
                 throw new Error('Reminder options are required');
             }
@@ -37,6 +45,7 @@ class ReminderService {
     // Edit reminder
     async editReminder(options, groupId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!options) {
                 throw new Error('Reminder options are required');
             }
@@ -68,6 +77,7 @@ class ReminderService {
     // Get list reminder
     async getListReminder(options, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!threadId) {
                 throw new Error('Thread ID is required');
             }
@@ -87,6 +97,7 @@ class ReminderService {
     // Get reminder
     async getReminder(reminderId) {
         try {
+            this.ensureZaloAPI();
             if (!reminderId) {
                 throw new Error('Reminder ID is required');
             }
@@ -106,6 +117,7 @@ class ReminderService {
     // Get reminder responses
     async getReminderResponses(reminderId) {
         try {
+            this.ensureZaloAPI();
             if (!reminderId) {
                 throw new Error('Reminder ID is required');
             }
@@ -125,6 +137,7 @@ class ReminderService {
     // Remove reminder
     async removeReminder(reminderId, threadId, type = 1) {
         try {
+            this.ensureZaloAPI();
             if (!reminderId) {
                 throw new Error('Reminder ID is required');
             }
