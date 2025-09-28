@@ -114,11 +114,11 @@ const reminderRoutes = require('./src/routes/reminders');
 const groupRoutes = require('./src/routes/groups');
 const noteRoutes = require('./src/routes/notes');
 const contextRoutes = require('./src/routes/context');
-const pollRoutes = require('./routes/polls');
+// const pollRoutes = require('./routes/polls');
 const quickMessageRoutes = require('./src/routes/quick-messages');
 const listenerRoutes = require('./src/routes/listeners');
 const systemRoutes = require('./src/routes/system');
-const webhookRoutes = require('./routes/webhook');
+// const webhookRoutes = require('./routes/webhook');
 
 // Apply Secret Key Middleware to all API routes
 app.use('/api/auth', secretKeyMiddleware.requireSecretKey(), authRoutes);
@@ -129,11 +129,11 @@ app.use('/api/reminders', secretKeyMiddleware.requireSecretKey(), reminderRoutes
 app.use('/api/groups', secretKeyMiddleware.requireSecretKey(), groupRoutes);
 app.use('/api/notes', secretKeyMiddleware.requireSecretKey(), noteRoutes);
 app.use('/api/context', secretKeyMiddleware.requireSecretKey(), contextRoutes);
-app.use('/api/polls', secretKeyMiddleware.requireSecretKey(), pollRoutes);
+// app.use('/api/polls', secretKeyMiddleware.requireSecretKey(), pollRoutes);
 app.use('/api/quick-messages', secretKeyMiddleware.requireSecretKey(), quickMessageRoutes);
 app.use('/api/listeners', secretKeyMiddleware.requireSecretKey(), listenerRoutes);
 app.use('/api/system', secretKeyMiddleware.requireSecretKey(), systemRoutes);
-app.use('/api/webhook', webhookRoutes); // Webhook không cần secret key
+// app.use('/api/webhook', webhookRoutes); // Webhook không cần secret key
 
 // Routes
 app.get('/', (req, res) => {
